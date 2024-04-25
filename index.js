@@ -32,12 +32,13 @@ async function run() {
 
         const coffeeCollection = client.db("coffeeDB").collection("coffee")
 
+        // get data
         app.get("/coffee", async (req, res) => {
             const cursor = coffeeCollection.find()
             const result = await cursor.toArray()
             res.send(result)
         })
-        
+
         app.get("/coffee/:id", async (req, res) => {
             const id = req.params.id;
             const quarry = { _id: new ObjectId(id) }
@@ -46,12 +47,17 @@ async function run() {
         })
 
 
+
+        // create data
         app.post('/coffee', async (req, res) => {
             const coffee = req.body;
             console.log(coffee);
             const result = await coffeeCollection.insertOne(coffee)
             res.send(result)
         })
+
+
+        // update data
         app.put('/coffee/:id', async (req, res) => {
             const id = req.params.id;
             const coffee = req.body;
@@ -66,7 +72,7 @@ async function run() {
             res.send(result)
         })
 
-
+        // delete data
         app.delete("/coffee/:id", async (req, res) => {
             const id = req.params.id;
             const quarry = { _id: new ObjectId(id) }
